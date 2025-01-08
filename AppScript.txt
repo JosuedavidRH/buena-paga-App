@@ -1,0 +1,84 @@
+function doGet(e) {
+  const spreadsheetId = '1aRAY2sc5UlDm56HYAgYPxa-ZbtayDrJ6hmd5SFzrCyo'; // ID de tu hoja de cálculo
+  const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  const sheet = spreadsheet.getSheetByName('Hoja 1'); // Nombre de la hoja
+
+  if (!sheet) {
+    return ContentService.createTextOutput(JSON.stringify({ error: "Hoja no encontrada" }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const action = e && e.parameter && e.parameter.action ? e.parameter.action : '';
+  const inputValue = e && e.parameter && e.parameter.input ? e.parameter.input.trim() : ''; // Limpiar espacios
+  const b1Value = sheet.getRange('B1').getValue(); // Obtener valor de B1 al inicio
+
+  if (action === "sendPin") {
+    if (inputValue) {
+      // Leer los datos de la columna L (filas 208 a 508) y limpiar espacios
+      const pinRange = sheet.getRange('L208:L508');
+      const pinValues = pinRange.getValues().flat().map(pin => pin.toString().trim());
+
+      Logger.log("Input PIN: " + inputValue); // Registrar PIN recibido
+      Logger.log("PIN Values: " + pinValues); // Registrar lista de PINs válidos
+
+      if (pinValues.includes(inputValue)) {
+        Logger.log("Escribiendo en B2: " + inputValue); // Confirmar escritura
+        sheet.getRange('B2').setValue(inputValue); // Guardar PIN en B2
+        SpreadsheetApp.flush(); // Forzar actualización inmediata
+
+        return ContentService.createTextOutput(JSON.stringify({
+          success: true,
+          b1: b1Value,
+          b2: sheet.getRange('B2').getValue() // Confirmar valor en respuesta
+        })).setMimeType(ContentService.MimeType.JSON);
+      } else {
+        return ContentService.createTextOutput(JSON.stringify({
+          error: "PIN no válido",
+          redirect: "dos.html",
+          b1: b1Value
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+    } else {
+      return ContentService.createTextOutput(JSON.stringify({
+        error: "PIN no recibido",
+        b1: b1Value
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
+  // Si no es la acción "sendPin", guardar el valor en A2
+  sheet.getRange('A2').setValue(inputValue);
+
+  if (inputValue === "12") {
+    const c2Value = sheet.getRange('C2').getValue();
+    const b2Value = sheet.getRange('B2').getValue();
+
+    if (!c2Value) {
+      return ContentService.createTextOutput(JSON.stringify({ b2: b2Value, b1: b1Value }))
+        .setMimeType(ContentService.MimeType.JSON);
+    } else {
+      const b4Value = sheet.getRange('B4').getValue();
+      const b6Value = sheet.getRange('B6').getValue();
+      const b7Value = sheet.getRange('B7').getValue();
+      const b8Value = sheet.getRange('B8').getValue();
+      const b9Value = sheet.getRange('B9').getValue();
+      const b10Value = sheet.getRange('B10').getValue();
+
+      return ContentService.createTextOutput(JSON.stringify({
+        b1: b1Value,
+        b2: b2Value,
+        b4: b4Value,
+        b6: b6Value,
+        b7: b7Value,
+        b8: b8Value,
+        b9: b9Value,
+        b10: b10Value
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
+  // Respuesta por defecto si no se cumple ninguna condición
+  const b2Value = sheet.getRange('B2').getValue();
+  return ContentService.createTextOutput(JSON.stringify({ b1: b1Value, b2: b2Value }))
+    .setMimeType(ContentService.MimeType.JSON);
+}

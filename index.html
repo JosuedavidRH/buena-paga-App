@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Buena Paga</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Solicita tu fiado</h2>
+
+        <!-- Botón para iniciar el lector QR -->
+        <button id="startQrButton">Escanear QR</button>
+
+        <!-- Contenedor para el lector QR -->
+        <video id="video" width="300" height="300"></video>
+        <canvas id="qr-canvas" width="300" height="300"></canvas>
+
+        <div id="dynamicFormContainer"></div>
+
+        <!-- Formulario adicional -->
+        <div id="formulario-adicional" class="form-container">
+            <!-- Imagen asociada -->
+            <div class="image-container">
+                <h3>Imagen asociada</h3>
+                <img id="b7-img" alt="Identificación Verificada" style="max-width: 25%; height: auto;">
+                <form id="additionalForm">
+                    <label for="additionalField1">Campo 1 (Solo números)</label>
+                    <input type="text" id="additionalField1" placeholder="Ingrese dato 1" oninput="validateNumeric(this)">
+                    
+                    <label for="additionalField2">Campo 2 (Verificación PIN)</label>
+                    <input type="password" id="additionalField2" placeholder="Ingrese PIN">
+
+                    <button type="button" onclick="verifyFields()">Aprobar Fiado</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Librería jsQR -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+
+    <!-- Archivo JS modularizado -->
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+/* Estilo General */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ajustado a 100vh para que ocupe toda la pantalla */
+    margin: 0;
+    background-color: #f4f4f9;
+}
+
+/* Contenedores Generales */
+.container, .form-container, #formulario-adicional {
+    text-align: center;
+    max-width: 700px; /* Mismo ancho para ambos formularios */
+    width: 100%;
+    margin: auto;
+    padding: 20px; /* Ajuste de padding para uniformidad */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulario Adicional */
+#formulario-adicional {
+    display: none; /* Oculta el formulario al inicio */
+    background-color: #d9f2d9; /* Color verde claro */
+    border: 1px solid #8bc78b; /* Borde verde */
+    border-radius: 5px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+#formulario-adicional.visible {
+    display: block; /* Mostrar dinámicamente */
+}
+
+/* Inputs y Botones */
+input, button {
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%; /* Hacer que los inputs y botones ocupen el 100% del contenedor */
+}
+
+/* Botones Verdes */
+button {
+    background-color: #4caf50; /* Verde */
+    color: #fff; /* Texto blanco */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049; /* Verde más oscuro al pasar el mouse */
+}
+
+/* Inputs de Validación */
+.form-container input.valid {
+    border-color: green;
+    background-color: #e9ffe9;
+}
+
+.form-container input.invalid {
+    border-color: red;
+    background-color: #ffe9e9;
+}
+
+/* Estilo del Lector de QR */
+#qr-reader {
+    width: 50%;
+    max-width: 500px;
+    height: 250px;
+    margin: 20px auto;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Canvas de QR (oculto por defecto) */
+#qr-canvas {
+    display: none;
+}
+
+/* Media Query para Responsividad */
+@media (max-width: 768px) {
+    .container, .form-container, #formulario-adicional {
+        padding: 15px;
+    }
+
+    #qr-reader {
+        height: auto;
+        max-width: 100%;
+    }
+
+    input, button {
+        font-size: 1rem;
+        padding: 10px;
+    }
+}
+
+#b7-img {
+    max-width: 25%;
+    height: auto;
+    border: 1px solid #ccc;
+    display: inline-block;
+}
+
+/* Clase para minimizar el lector QR */
+#qr-reader.minimized {
+    width: 0;
+    height: 0;
+    visibility: hidden;  /* Hace que el lector QR no sea visible */
+    overflow: hidden;  /* Asegura que no ocupe espacio */
+}
